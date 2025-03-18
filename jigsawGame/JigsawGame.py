@@ -4,20 +4,20 @@ from JigsawBoard import JigsawBoard
 from Piece import Piece
 
 class JigsawGame:
-    def __init__(self, master):
+    def __init__(self, master, attempts):
         self.master = master
         self.master.title("Jigsaw Game")
         self.master.geometry("500x700")
 
         self.canvas = tk.Canvas(self.master, width=400, height=400, bg="white")
-        self.canvas.pack(pady=20)
+        self.canvas.pack(pady=16)
 
         self.score_label = tk.Label(self.master, text="Score: 0  Piese schimbate: 0")
         self.score_label.pack()
         self.score = 0
 
         self.move_counter = 0
-        self.max_moves = 40 # Numărul maxim de mutări posibile
+        self.max_moves = attempts # Numărul maxim de mutări posibile
         self.pieces_changed = 0
 
         self.current_piece = None
@@ -81,7 +81,7 @@ class JigsawGame:
     def move_right(self, event=None):
         if self.gameHasEnded:
             return
-        if self.current_col + self.current_piece.width < 12:
+        if self.current_col + self.current_piece.width < 8:
             self.current_col += 1
             self.redraw_piece()
 

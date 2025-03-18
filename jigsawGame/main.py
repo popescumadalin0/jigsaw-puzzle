@@ -3,7 +3,13 @@ from JigsawGame import JigsawGame
 from ControllerInput import ControllerInput
 import pygame
 
-if __name__ == "__main__":
+from JigsawMenu import JigsawMenu
+
+
+def start_game(attempts):
+    root = tk.Tk()
+    app = JigsawGame(root, attempts)
+
     pygame.init()
     controller_connected = pygame.joystick.get_count() > 0
     if not controller_connected:
@@ -13,15 +19,12 @@ if __name__ == "__main__":
         joystick = pygame.joystick.Joystick(0)
         joystick.init()
 
-    root = tk.Tk()
-    app = JigsawGame(root)
     controller = ControllerInput(app) if controller_connected else None
 
     while True:
         if controller_connected:
             controller.handle_input()
         else:
-
             root.bind("<Up>", lambda event: app.move_up())
             root.bind("<Down>", lambda event: app.move_down())
             root.bind("<Left>", lambda event: app.move_left())
@@ -32,3 +35,9 @@ if __name__ == "__main__":
 
         root.update_idletasks()
         root.update()
+
+
+if __name__ == "__main__":
+    menu_root = tk.Tk()
+    JigsawMenu(menu_root, start_game)
+    menu_root.mainloop()  # Pornește meniul
