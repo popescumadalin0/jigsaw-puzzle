@@ -7,9 +7,9 @@ class JigsawGame:
     def __init__(self, master):
         self.master = master
         self.master.title("Jigsaw Game")
-        self.master.geometry("700x700")
+        self.master.geometry("500x700")
 
-        self.canvas = tk.Canvas(self.master, width=600, height=400, bg="white")
+        self.canvas = tk.Canvas(self.master, width=400, height=400, bg="white")
         self.canvas.pack(pady=20)
 
         self.score_label = tk.Label(self.master, text="Score: 0  Piese schimbate: 0")
@@ -17,7 +17,7 @@ class JigsawGame:
         self.score = 0
 
         self.move_counter = 0
-        self.max_moves = 25 # Numărul maxim de mutări posibile
+        self.max_moves = 40 # Numărul maxim de mutări posibile
         self.pieces_changed = 0
 
         self.current_piece = None
@@ -34,7 +34,7 @@ class JigsawGame:
             Piece("backline",3,1,"yellow")
         ]
 
-        self.board = JigsawBoard(8, 12)
+        self.board = JigsawBoard(8, 8)
 
         self.draw_board()
         self.place_piece()
@@ -110,10 +110,10 @@ class JigsawGame:
         self.canvas.create_rectangle(x0, y0, x1, y1, fill=self.current_piece.color, tags="current_piece")
 
     def confirm_placement(self, event=None):
+        if self.gameHasEnded:
+            return
         if self.max_moves == self.move_counter:
             self.lose_game()
-            return
-        if self.gameHasEnded:
             return
         for i in range(self.current_row, self.current_row + self.current_piece.height):
             for j in range(self.current_col, self.current_col + self.current_piece.width):
@@ -152,7 +152,7 @@ class JigsawGame:
         self.score = 0
         self.move_counter = 0
         self.gameHasEnded = False
-        self.board = JigsawBoard(8, 12)
+        self.board = JigsawBoard(8, 8)
         self.draw_board()  # Redraw the board
         self.place_piece()  # Place a new piece
         if hasattr(self, 'game_over_label'):
